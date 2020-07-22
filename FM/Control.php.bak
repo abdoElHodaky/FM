@@ -1,0 +1,492 @@
+<?php
+function COOKIE_DIR()
+			{
+				
+			if ($_COOKIE["FM_user"]) {
+				
+			
+			$dir="../../".$_COOKIE["FM_user"]."/";
+					$D=scandir($dir);
+					echo "<table>";
+					echo "<thead>
+					<th>Name</th>
+					<th>Type</th>
+					</thead><tbody>";
+					foreach (array_splice($D,2) as $key => $value) {
+				
+				if (mime_content_type($dir.$value)=='directory') 
+					{
+						echo "<tr class='callout alert'><td><a class='fi-folder ' href=$dir$value target='_top'>&nbsp;$value</a></td><td style='color:rgb(255,150,120)'>".mime_content_type($dir.$value).'</td></tr>';
+					}	
+				
+					else
+					{
+						echo "<tr class='callout warning ' ><td><a href=$dir$value target='_top'>&nbsp;$value</a></td><td style='color:rgb(150,255,150)'>".mime_content_type($dir.$value)."</td></tr>";
+					}
+
+				}
+				echo "</tbody></table>";
+			}
+			return false;
+			}	
+
+$SQL=new mysqli("localhost","root","279348","__FM__");
+/*if ($_SERVER["REQUEST_METHOD"]==="POST") 
+		{	
+				$SQL=new mysqli();
+				$SQL->connect('localhost','root','279348','__FM__');
+				header("REFRESH:1");
+				$U=filter_var($SQL->real_escape_string(strtolower($_REQUEST['FM_User'])),FILTER_SANITIZE_STRING,array("flags"=>array(FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_FLAG_STRIP_LOW, FILTER_FLAG_STRIP_HIGH, FILTER_FLAG_STRIP_BACKTICK, FILTER_FLAG_ENCODE_LOW, FILTER_FLAG_ENCODE_HIGH, FILTER_FLAG_ENCODE_AMP)));
+				$P=filter_var($SQL->real_escape_string(strtolower($_REQUEST['FM_Pass'])),FILTER_SANITIZE_STRING,array("flags"=>array(FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_FLAG_STRIP_LOW, FILTER_FLAG_STRIP_HIGH, FILTER_FLAG_STRIP_BACKTICK, FILTER_FLAG_ENCODE_LOW, FILTER_FLAG_ENCODE_HIGH, FILTER_FLAG_ENCODE_AMP)));
+
+				
+				$q=$SQL->query("SELECT Name,AES_DECRYPT(Password,'$P')  FROM fm WHERE Name='$U'");
+				
+				if ((empty($U)||empty($P))||(empty($U)&&empty($P))) {
+
+					echo '<div class="callout hollow warning" data-closable="fade-out">'.
+
+					'<h1>Warning&nbsp;:&nbsp;Empty&nbsp;Fields</h1>'
+					.'
+					<button class="close-button" aria-label="Dismiss W" type="button" data-close>
+    				<span aria-hidden="true">&times;</span>
+  					</button>
+					</div>';
+					echo "<script>".'$(".row").css("display","none");$(".table").css("display","none");'."</script>";
+					echo "<script>".
+					
+					"$('.warning').fadeOut(2000);"
+					.'</script>';
+						header("LOCATION:/Control/FM/");
+				}
+
+				$R=mysqli_fetch_assoc($q);
+
+					$RP=$R["AES_DECRYPT(Password,'$P')"];
+					$RU=$R["Name"];
+					if ($RP==$P&&$U==$RU) {
+						setcookie("FM_user","$RU");
+						echo '<div class="callout hollow success" data-closable="fade-out">'.
+
+					'<h1>Access&nbsp;Done</h1>'
+					.'
+					<button class="close-button" aria-label="Dismiss A" type="button" data-close>
+    				<span aria-hidden="true">&times;</span>
+  					</button>
+					</div>';
+
+					echo "<script>".
+					
+					"$('.success').fadeOut(2000);
+					$('.row').css('display','block');"
+					.'</script>';
+
+					COOKIE_DIR();
+
+
+					}
+					else
+					{
+					echo '<div class="callout hollow alert" data-closable="fade-out">'.
+
+					'<h1>ERROR:&nbsp;Try&nbsp;Again</h1>'
+					.'
+					<button class="close-button" aria-label="Dismiss A" type="button" data-close>
+    				<span aria-hidden="true">&times;</span>
+  					</button>
+					</div>';
+					echo "<script>".'$(".row").css("display","none");
+					$(".table").css("display","none");'."</script>";
+					echo "<script>".
+					
+					"$('.alert').fadeOut(2000);"
+					.'</script>';
+						header("REFRESH:2;url=/Control/FM/");
+					}
+			}
+			else
+			{	
+				if ($_COOKIE['FM_user']) {
+
+					COOKIE_DIR();
+					echo "<script>".
+				"$('.row').css('display','block');"
+				."</script>";
+
+				}
+				else{
+				header("LOCATION:/Control/FM");
+					}
+			}
+*/
+
+?>
+<html>
+<head>
+<title>FM-Control</title>
+<link rel="icon" href="images.jpg">
+<link rel="stylesheet" href="../FF/css/foundation.min.css">
+<link rel="stylesheet" href="../FF/foundation-icons.css">
+<script type="text/javascript" src="../jquery-2.2.2.js"></script>
+<script type="text/javascript" src="../FF/js/vendor/foundation.min.js"></script>
+<style type="text/css">*{outline: none;font-weight: bold;}</style>
+</head>
+<body>
+<div class="small-up-2 medium-up-10 large-up-12">
+	<nav class="top-bar">
+		<div class="row hollow secondary callout">
+		<section class="top-bar-section">
+			<ul class="small-2 medium-7 large-12 columns dropdown menu" data-dropdown-menu>
+				<li>
+				<a>File</a>
+					<ul class="menu">
+						<li><a class="fi-plus" data-open="Create">&nbsp;New_File&nbsp;</a></li>
+						<li><a class="fi-upload" data-open="Upload">&nbsp;Upload&nbsp;</a></li>
+						<li><a class="fi-download">&nbsp;Download&nbsp;</a></li>
+					</ul>
+				</li>
+
+				<li>
+				<a>Edit</a>
+				<ul class="menu">
+						<li><a class="fi-page-add">&nbsp;Add&nbsp;</a></li>
+						<li><a class="fi-page-copy">&nbsp;Copy&nbsp;</a></li>
+						<li><a class="fi-page-delete">&nbsp;Delete&nbsp;</a></li>
+					</ul>
+
+				</li>
+
+				<li>
+				<a>View</a>
+				<ul class="menu">
+						<li><a class="fi-css3" data-open="Import" >&nbsp;Themes&nbsp;</a></li>
+						<li></li>
+					</ul>
+
+				</li>
+
+				<li>
+				<a href="logout" target="_top">Logout</a>
+
+				</li>
+			</ul>
+		</section>
+		<?php if($_COOKIE['FM_user']){echo"<p class='top-bar-section right fi-user'>&nbsp;LoginAs:&nbsp;".$_COOKIE['FM_user']."</p>";}?>
+		</div>
+	</nav>
+	</div>
+	<div class="reveal callout success" id="Success" data-reveal>
+  <h1>Access Done!</h1>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+
+
+	<div class="reveal" id="Upload" data-reveal>
+  <h1>Upload&nbsp;Your&nbsp;Files</h1>
+  <embed src="Up.php" width="600" heigth="600">
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+	<div class="reveal" id="Import" data-reveal>
+  <h1>Import&nbsp;Themes</h1>
+  <embed src="Themes.php" width="600" heigth="600">
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="reveal" id="View" data-reveal style="width:100%;height:50%;transition:all ease-in .9s 1s" data-animation-in="spin-in" data-animation-out="fade-out">
+  <fieldset>
+  <legend>View</legend>
+  <pre style="max-width:100%;max-height:100%">
+  </pre>
+  </fieldset>
+  <hr>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <fieldset>
+  <legend>Options</legend>
+  <ul class="menu Button-group">
+  <li><a class="button large fi-page-edit top" id="edit" data-open="Edit">Edit</a></li>
+  <li class="vertical"></li>
+  <li><a class="button large fi-page-delete" id="delete">Delete</a></li>
+  </ul>
+  </fieldset>
+  <hr>
+</div>
+
+<div class="reveal row small-2 medium-5 large-10 columns" id="Edit" data-reveal style="width:100%;height:100%;transition:all ease-in .9s 1s" data-animation-in="spin-in" data-animation-out="fade-out">
+  <fieldset class="row medium-4 large-7 small-2 colums">
+  <legend>Edit</legend>
+  <form method="post" action="Do" class="small-3 medium-7 large-12 column">
+  <table class="table row">
+  	<div class="small-3 medium-10 large-12 columns">
+  	<tbody>
+  		<tr><td>
+  			<textarea cols="200" rows="50" id="Value" name="NValue"></textarea>
+  		</td></tr>
+  		<tr><td><input type="submit" value="save" class="button large fi-save"></td></tr>
+  	</tbody>
+  	</div>
+  </table>
+  </form>
+  </fieldset>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="reveal row small-2 medium-5 large-10 columns" id="Create" data-reveal style="width:100%;height:100%;transition:all ease-in .9s 1s" data-animation-in="spin-in" data-animation-out="fade-out">
+  <fieldset class="row medium-4 large-7 small-2 colums">
+  <legend>Create</legend>
+  <form method="post" action="Do" class="small-3 medium-7 large-12 column">
+  <table class="table row">
+<thead>
+	<th>Name</th>
+	<th>Content</th>
+</thead>
+  	<div class="small-3 medium-10 large-12 columns">
+  	<tbody>
+  		<tr><td>
+  			<textarea cols="2000" rows="10" id="Content" name="Content"></textarea>
+  		</td>
+  		<td><input type="submit" value="Create" class="button large fi-page-add"></td></tr>
+  	</tbody>
+  	</div>
+  </table>
+  </form>
+  </fieldset>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+</body>
+<?php
+
+if ($_SERVER["REQUEST_METHOD"]==="POST") 
+		{	
+				$SQL=new mysqli();
+				$SQL->connect('localhost','root','279348','__FM__');
+				header("REFRESH:1");
+				$U=filter_var($SQL->real_escape_string(strtolower($_REQUEST['FM_User'])),FILTER_SANITIZE_STRING,array("flags"=>array(FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_FLAG_STRIP_LOW, FILTER_FLAG_STRIP_HIGH, FILTER_FLAG_STRIP_BACKTICK, FILTER_FLAG_ENCODE_LOW, FILTER_FLAG_ENCODE_HIGH, FILTER_FLAG_ENCODE_AMP)));
+				$P=filter_var($SQL->real_escape_string(strtolower($_REQUEST['FM_Pass'])),FILTER_SANITIZE_STRING,array("flags"=>array(FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_FLAG_STRIP_LOW, FILTER_FLAG_STRIP_HIGH, FILTER_FLAG_STRIP_BACKTICK, FILTER_FLAG_ENCODE_LOW, FILTER_FLAG_ENCODE_HIGH, FILTER_FLAG_ENCODE_AMP)));
+
+				
+				$q=$SQL->query("SELECT Name,AES_DECRYPT(Password,'$P')  FROM fm WHERE Name='$U'");
+				
+				if ((empty($U)||empty($P))||(empty($U)&&empty($P))) {
+
+					echo '<div class="callout hollow warning" data-closable="fade-out">'.
+
+					'<h1>Warning&nbsp;:&nbsp;Empty&nbsp;Fields</h1>'
+					.'
+					<button class="close-button" aria-label="Dismiss W" type="button" data-close>
+    				<span aria-hidden="true">&times;</span>
+  					</button>
+					</div>';
+					echo "<script>".'$(".row").css("display","none");$(".table").css("display","none");'."</script>";
+					echo "<script>".
+					
+					"$('.warning').fadeOut(2000);"
+					.'</script>';
+						header("LOCATION:/Control/FM/");
+				}
+
+				$R=mysqli_fetch_assoc($q);
+
+					$RP=$R["AES_DECRYPT(Password,'$P')"];
+					$RU=$R["Name"];
+					if ($RP==$P&&$U==$RU) {
+						setcookie("FM_user","$RU");
+						echo '<div class="callout hollow success" data-closable="fade-out">'.
+
+					'<h1>Access&nbsp;Done</h1>'
+					.'
+					<button class="close-button" aria-label="Dismiss A" type="button" data-close>
+    				<span aria-hidden="true">&times;</span>
+  					</button>
+					</div>';
+
+					echo "<script>".
+					
+					"$('.success').fadeOut(2000);
+					$('.row').css('display','block');"
+					.'</script>';
+
+					COOKIE_DIR();
+
+
+					}
+					else
+					{
+					echo '<div class="callout hollow alert" data-closable="fade-out">'.
+
+					'<h1>ERROR:&nbsp;Try&nbsp;Again</h1>'
+					.'
+					<button class="close-button" aria-label="Dismiss A" type="button" data-close>
+    				<span aria-hidden="true">&times;</span>
+  					</button>
+					</div>';
+					echo "<script>".'$(".row").css("display","none");
+					$(".table").css("display","none");'."</script>";
+					echo "<script>".
+					
+					"$('.alert').fadeOut(2000);"
+					.'</script>';
+						header("REFRESH:2;url=/Control/FM/");
+					}
+			}
+			else
+			{	
+				if ($_COOKIE['FM_user']) {
+
+					COOKIE_DIR();
+					echo "<script>".
+				"$('.row').css('display','block');"
+				."</script>";
+
+				}
+				else{
+				header("LOCATION:/Control/FM");
+					}
+			}
+
+?>
+<script type="text/javascript">
+setTimeout(function() {
+	$("button").removeClass("ui-btn ui-shadow ui-corner-all");
+	$("").append(table);
+},100);
+	$(document).foundation();
+		var value;var vname;
+$(".warning td").children("a").click(function(event)
+	{	
+		event.preventDefault();
+		var a=this;
+		var name=a.href.split("/");
+		vname=name[name.length-1];
+		name=name[name.length-1].split(".");
+		var ext=name[name.length-1];
+		with($("#View").foundation("open"))
+		{	var xhr=new XMLHttpRequest();
+			xhr.open("GET",a.href,true);
+			xhr.responseType="blob";
+			xhr.send();
+			xhr.onload=function() {
+			var file=xhr.response;
+				var reader=new FileReader();
+				if (ext=="json"||ext=="css"||ext=="txt") {
+				reader.readAsText(file);
+				reader.onload=function(event) {
+					var result=event.target.result;
+					$("pre").html(result+"<br>");
+					$("#View").css({"width":"100%","height":"50%"});
+					//$("#View").append("<a class='button large fi-page-edit top' id='edit' data-open='Edit'>Edit</a>");
+					$("#edit").click(function(event) {
+						$("#Value").val($.trim(result));
+						value=$("#Value").val();
+					});
+
+					}
+				}
+					if (ext=="png"||ext=="gif"||ext=="svg"||ext=="jpg")
+					{
+						reader.readAsDataURL(file);
+						reader.onload=function(event) {
+						var result=event.target.result;
+						$("pre").append("<img src="+result+">");$(".reveal").css({"width":"20%","height":"30%"});
+						//$("#edit").remove();
+						}
+					}
+				
+			}
+
+		}
+
+		$("#View").on("closed.zf.reveal",function() {
+			$("pre").text(null);
+		
+		$("input[value=save]").click(function() {$(".reveal").foundation("close");});
+		var xhr=new XMLHttpRequest();
+		$("#Edit form").submit(function(event)
+		{
+			event.preventDefault();
+			var data=new FormData();
+			xhr.open("POST","Do/Edit/"+vname,true);
+			data.append("NValue",$("#Value").val());
+			xhr.onload=function() {
+				console.log(xhr.response);
+			};	
+			xhr.send(data);
+		});
+
+	});
+		$("#delete").click(function(event)
+			{
+				event.preventDefault();
+				$(".reveal").foundation("close");
+				var xhr=new XMLHttpRequest();
+				xhr.open("POST","Do/delete/"+vname);
+				var data=new FormData();
+				data.append("delete",true);
+				xhr.onload=function()
+				{
+					console.log(xhr.response);
+				}
+				xhr.send(data);
+				if (xhr.DONE) {
+				document.location.reload();
+				}
+			});
+	});
+
+		$("#Create form").submit(function(event) {
+			event.preventDefault();
+			var xhr=new XMLHttpRequest();
+			var data=new FormData();
+
+			if (($("input[name=FName]").val()==""||$("textarea[name=Content]").val()=="")||($("input[name=FName]").val()==""&&$("textarea[name=Content]").val()=="")) 
+			{
+				document.location.reload();
+			}
+			else
+			{	
+				data.append("FName",$("input[name=FName]").val());
+				data.append("Content",$("textarea[name=Content]").val());
+			}
+			xhr.open("POST","Do/add/"+$("input[name=FName]").val(),true);
+			xhr.send(data);
+			xhr.onload=function()
+			{
+				console.log(xhr.response);
+			}
+
+			if (xhr.DONE) {
+				document.location.reload();
+				}
+
+		});
+		$("input[value=Create]").click(function() {$(".reveal").foundation("close");});
+		
+		
+setInterval(function(){
+var xhr=new XMLHttpRequest();
+xhr.open("GET","Control",true);
+xhr.responseType="document";
+xhr.onload=function() {
+	$(document.body).html(xhr.response.body.innerHTML);
+}
+xhr.send();
+},50000000);
+</script>
+
+</html>

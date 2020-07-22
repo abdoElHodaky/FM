@@ -1,0 +1,136 @@
+.Viewer
+{
+    width:100vw;
+    height:94vh;
+    margin: 50px auto;
+    padding: 20px auto;
+    background: black;
+    
+}
+.Viewer .View
+{
+    width: 100%;
+    height: 100%;
+    margin: 10px auto;
+    background: gray;
+}
+#Img
+{
+    margin: -34px auto;
+    padding: 10px 10px 50px 90px;
+    transform:  translate(-150px,85px);
+    width: 1024px;
+    height: 768px;
+    border: none;
+}
+ul li
+{
+    margin-left: 10px;
+    padding: 10px;
+}
+ul
+{   transform: translate(126px,-119px);
+    background: black;
+    width: 77vw;
+    max-width: 77vw;
+    
+    
+}
+body
+{
+    background-color: grey;
+}
+@media only screen and (max-width:1024px){
+    #next
+    {
+        transform: translate(851px,82px);
+    }
+    #Img
+    {
+        width: 800px;
+        height: 600px;
+    }
+    ul{transform:  translate(80px,-119px)}
+    
+    .Viewer
+    {   margin: 20px auto;
+        transform: translateX(-15px);
+        border-radius: 50%;
+    }
+     .View{border-radius: 10%;padding: 0px 0px 12px 0px;margin: 10px auto;}
+}
+
+
+
+
+@media only screen and (max-width:773px)
+{
+    
+    #Img
+    {
+        
+        transform: translateY(-10px);
+        width: 700px;
+        height: 300px;
+    }
+    
+    
+    #next
+    {
+        transform:  translate(684px,142px)
+    }
+    #prev
+    {
+      transform:  translate(-110px,142px)  
+    }
+    
+    
+}
+
+@media only screen and (max-width:768px)
+{
+    ul
+    {
+        width: 100px;transform: translate(607px,-926px);
+    }
+    #Img
+    {
+        
+    transform: translateY(200px);
+    width: 600px;
+    height: 800px;
+    }
+    .Viewer{width: 768px;height: 1024px;}
+    .Viewer .View
+    {
+        height: 156%;
+    }
+    #next
+    {
+        transform:  translate(260px,1030px)
+    }
+    #prev
+    {
+      transform:  translate(152px,162px)  
+    }
+}
+
+@media only screen and (max-width:435px)
+
+{
+    #Img
+    {
+        transform: translate(-110px,200px);
+        width: 300px;height: 700px;
+    }
+    #next
+    {
+        transform: translate(200px,566px);
+    }
+    #prev
+    {
+        transform:  translate(90px,-220px)
+    }
+    
+    ul{transform: translate(2px,-958px);}
+}
